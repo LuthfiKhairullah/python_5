@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container py-4">
+    <section>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Pages</li>
+          <li class="breadcrumb-item"><a href="{% url 'book_list' %}">Books</a></li>
+          <li class="breadcrumb-item active"><a href="{% url 'book_create' %}">Add Book</a></li>
+        </ol>
+      </nav>
+      <form method="POST" enctype="multipart/form-data">
+        <div class="row">
+          {% csrf_token %}
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">About Book</h5>
+                <div class="mb-3">
+                  <label for="title" class="form-label">Title</label>
+                  <input type="text" class="form-control" id="title" name="title" placeholder="Title" value="{{ book.title }}">
+                </div>
+                <div class="mb-3">
+                  <label for="author" class="form-label">Author</label>
+                  <input type="text" class="form-control" id="author" name="author" placeholder="Author" value="{{ book.author }}">
+                </div>
+                <div class="mb-3">
+                  <label for="date" class="form-label">Publication Date</label>
+                  <input type="date" class="form-control" id="date" name="date" value="{{ book.publication_date|date:"Y-m-d" }}">
+                </div>
+                <div class="mb-3">
+                  <label for="category" class="form-label">Category</label>
+                  <select class="form-select" name="category" id="category" class="form-select">
+                    <option value="">Choose Category</option>
+                    <option value="Biografi" {% if book.category == 'Biografi' %}selected{% endif %}>Biografi</option>
+                    <option value="Dongeng" {% if book.category == 'Dongeng' %}selected{% endif %}>Dongeng</option>
+                    <option value="Komik" {% if book.category == 'Komik' %}selected{% endif %}>Komik</option>
+                    <option value="Majalah" {% if book.category == 'Majalah' %}selected{% endif %}>Majalah</option>
+                    <option value="Novel" {% if book.category == 'Novel' %}selected{% endif %}>Novel</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="description" class="form-label">Descriptions</label>
+                  <textarea class="form-control" id="description" name="description" rows="3">{{ book.descriptions }}</textarea>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Progress</h5>
+                <div class="mb-3">
+                  <label for="status" class="form-label">Status</label>
+                  <select class="form-select" name="status" id="status" class="form-select" required>
+                    <option value="">Choose Status</option>
+                    <option value="Completed" {% if book.status == 'Completed' %}selected{% endif %}>Completed</option>
+                    <option value="Reading" {% if book.status == 'Reading' %}selected{% endif %}>Reading</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <label for="score" class="form-label">Score</label>
+                  <input type="number" class="form-control" id="score" name="score" placeholder="Score" value="{{ book.score }}">
+                </div>
+              </div>
+            </div>
+            <div class="mb-md-3 mb-0"></div>
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Book Cover</h5>
+                <div class="mb-3">
+                  <input class="form-control" type="file" id="book_cover" name="book_cover" accept="image/*" {% if book.cover_image == '' %}required{% endif %}>
+                </div>
+              </div>
+            </div>
+            <div class="mb-md-3 mb-0"></div>
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Book</h5>
+                <div class="mb-3">
+                  <input class="form-control" type="file" id="book_pdf" name="book_pdf" {% if book.pdf == '' %}required{% endif %}>
+                </div>
+              </div>
+            </div>
+            <div class="my-3">
+              <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a class="btn btn-danger me-md-2 me-0" href="{% url 'book_list' %}">Cancel</a>
+                <button class="btn btn-primary" type="submit">Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </section>
+
+  </div>
+{% endblock %}

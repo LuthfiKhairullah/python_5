@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4">
+    <section>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Pages</li>
+                <li class="breadcrumb-item"><a href="{% url 'book_list' %}">Books</a></li>
+                <li class="breadcrumb-item active"><a href="{% url 'book_detail' book.slug %}">Detail Book</a></li>
+            </ol>
+        </nav>
+        <h5 class="my-2">Details Book</h5>
+        <div class="row my-2">
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-center">
+                            <img src="{{ BASE_URL }}{{ MEDIA_URL }}{{ book.cover_image }}" alt="Cover Image">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5 class="text-secondary">{{ book.author }}</h5>
+                        <h5 class="card-title fw-bold">{{ book.title }}</h5>
+                    </div>
+                    <div class="d-flex">
+                        <form action="{% url 'book_delete' book.slug %}" method="POST" class="me-2">
+                            {% csrf_token %}
+                            <button class="btn btn-sm btn-outline-dark" type="submit">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                                    <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"></path>
+                                </svg>
+                            </button>
+                        </form>
+                        <div>
+                            <a class="btn btn-sm btn-outline-dark" href="{% url 'book_edit' book.slug %}">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pen-fill" viewBox="0 0 16 16">
+                                    <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="py-3">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">About Book</a>
+                        </li>
+                        <li class="d-flex justify-content-center align-items-center px-2">
+                            <span class="badge bg-secondary">{{ book.status }}</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Sinopsis</h5>
+                        <p>{{ book.descriptions }}</p>
+                        <h5>Detail Book</h5>
+                        <div class="text-center">
+                            <p class="m-1">Publication Date</p> 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-calendar-event" viewBox="0 0 16 16">
+                                <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z"></path>
+                                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"></path>
+                            </svg>
+                            <p>{{ book.publication_date }}</p>
+                        </div>
+                        <a class="btn btn-sm btn-warning me-md-2 me-0" href="{% url 'book_preview' book.slug %}">Detail</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
